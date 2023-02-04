@@ -6,11 +6,11 @@ const TasksContext = createContext<TasksContextType | null>(null);
 const data = [
     {
         id: 0,
-        title: 'Fazer almoço',
+        text: 'Fazer almoço',
     },
     {
         id: 1,
-        title: 'Lavar roupas',
+        text: 'Lavar roupas',
     }
 ]
 
@@ -26,10 +26,10 @@ export const TasksProvider = ({ children }: {children: ReactNode}) => {
                 // setTasks([...oldTasks]);
     }
 
-    const editTask = (taskId: number, taskTitle: string ) => {
+    const editTask = (taskId: number, tasktext: string ) => {
         const taskIndex = tasks.findIndex((task) => task.id === taskId);
         const updatedTasks = [...tasks];
-        updatedTasks[taskIndex] = {id: taskId, title: taskTitle};
+        updatedTasks[taskIndex] = {id: taskId, text: tasktext};
 
         setTasks([...updatedTasks]);
     }

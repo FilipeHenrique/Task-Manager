@@ -1,6 +1,6 @@
 export interface Task  {
     id: number,
-    title: string,
+    text: string,
 }
 
 export type State = {
@@ -9,7 +9,7 @@ export type State = {
 
 export type Actions = {
     addTask: (task: Task) => void,
-    editTask: (taskId: number, taskTitle: string ) => void,
+    editTask: (taskId: number, tasktext: string ) => void,
     deleteTask: (taskId: number) => void
 }
 

@@ -6,8 +6,6 @@ export default function AddTaskContainer() {
     const [,{addTask}] = useTasksContext();
     
     return (
-        <div>
             <AddTask addTask={addTask}/>
-        </div>
     );
 }

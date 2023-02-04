@@ -43,6 +43,7 @@ export default function TaskComponent({ id, title, editTask, deleteTask }: TaskP
                             maxLength={30}
                             value={taskTitle}
                             onChange={(e) => setTaskTitle(e.target.value)}
+                            onKeyDown={(e)=>{if(e.key === "Enter") handleEditask()}}
                             autoFocus
                         />
 

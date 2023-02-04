@@ -1,5 +1,4 @@
-import { useRef, useState } from "react";
-import useOnClickOutside from "../hooks/useOnClickOutside";
+import { useState } from "react";
 
 interface TaskProps {
     id: number,
@@ -15,15 +14,12 @@ export default function TaskComponent({ id, title, editTask, deleteTask }: TaskP
 
     const handleEditask = () => {
         if (taskTitle.length > 0){
-            editTask(id, taskTitle);
+            editTask(id, taskTitle.trim());
         }else{
             setTaskTitle(title);
         }
         setIsEditingTitle(false);
     }
-
-    const ref = useRef(null);
-    useOnClickOutside(ref, () => { handleEditask() });
 
     return (
         <div className="flex justify-between border-2 border-gray-500 p-5">
@@ -38,11 +34,11 @@ export default function TaskComponent({ id, title, editTask, deleteTask }: TaskP
                         </p>
                         :
                         <input
-                            ref={ref}
                             className="text-3xl font-bold mb-3 focus:outline-none"
                             maxLength={30}
                             value={taskTitle}
                             onChange={(e) => setTaskTitle(e.target.value)}
+                            onBlur={()=>handleEditask()}
                             onKeyDown={(e)=>{if(e.key === "Enter") handleEditask()}}
                             autoFocus
                         />

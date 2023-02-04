@@ -29,7 +29,7 @@ export default function AddTask({ addTask }: AddTaskProps) {
                         () => {
                             // pega id da API e coloca
                             if (task.length > 0) {
-                                addTask({ id: 0, title: task });
+                                addTask({ id: Math.random(), title: task });
                                 setTask('');
                             } else {
                                 setFieldError('Task title field cannot be empty');

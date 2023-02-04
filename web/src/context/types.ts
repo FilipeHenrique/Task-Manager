@@ -8,7 +8,9 @@ export type State = {
 }
 
 export type Actions = {
-    addTask: (task: Task) => void
+    addTask: (task: Task) => void,
+    editTask: (taskId: number, taskTitle: string ) => void,
+    deleteTask: (taskId: number) => void
 }
 
 export type TasksContextType = [State,Actions]

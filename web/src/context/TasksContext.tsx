@@ -26,13 +26,32 @@ export const TasksProvider = ({ children }: {children: ReactNode}) => {
                 // setTasks([...oldTasks]);
     }
 
-    const state: State = {
+    const editTask = (taskId: number, taskTitle: string ) => {
+        const taskIndex = tasks.findIndex((task) => task.id === taskId);
+        const updatedTasks = [...tasks];
+        updatedTasks[taskIndex] = {id: taskId, title: taskTitle};
+
+        setTasks([...updatedTasks]);
+    }
+
+    const deleteTask = (taskId: number) => {
+        const updatedTasks = tasks.filter((task)=> task.id !== taskId);
+        setTasks([...updatedTasks]);
+    }
+
+    let state: State = {
         tasks
     }
 
     const actions: Actions = {
-        addTask
+        addTask,
+        editTask,
+        deleteTask
     }
+
+    useEffect(()=>{
+        console.log(tasks);
+    },[tasks])
 
     return (
         <TasksContext.Provider value={[state, actions]}>

@@ -6,7 +6,7 @@ const TasksContext = createContext<TasksContextType | null>(null);
 const data = [
     {
         id: 0,
-        text: 'Fazer almoço',
+        text: "Fazer almoço",
     },
     {
         id: 1,

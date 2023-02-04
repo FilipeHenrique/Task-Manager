@@ -18,14 +18,14 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
     const [color, setColor] = useState('');
     useEffect(()=>{
         // setColor("#"+Math.floor(Math.random()*16777215).toString(16));
-        setColor('white');
+        setColor('#8db9b9');
     },[])
 
     return (
-        <div className="relative shadow-lg overflow-hidden resize h-60 max-w-2xl max-h-[500px] min-w-[150px] min-h-[100px]" >
+        <div className="relative shrink-0 shadow-lg overflow-hidden resize h-60 max-w-2xl max-h-[500px] min-w-[150px] min-h-[100px]" >
             <textarea
                 className="
-                    px-6 py-6 text-xl mb-3 overflow-auto focus:outline-none h-full w-full resize-none"
+                    px-6 py-8 text-xl mb-3 overflow-auto focus:outline-none h-full w-full resize-none"
                 style={{backgroundColor: color}}
                 value={tasktext}
                 onChange={(e) => setTasktext(e.target.value)}
@@ -34,7 +34,11 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
                 autoFocus={tasktext.length === 0 ? true : false}
             >
             </textarea>
-                <button className="px-3 absolute top-0 right-0" onClick={() => deleteTask(id)}> x </button>
+            <div className="absolute top-0 shadow-sm w-full" 
+                style={{backgroundColor: color}}
+            >
+                <button className="px-3 float-right" onClick={() => deleteTask(id)}> x </button>
+            </div>
         </div>
     );
 }

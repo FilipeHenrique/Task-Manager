@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import useOnClickOutside from "../hooks/useOnClickOutside";
 
 interface TaskProps {
     id: number,
     title: string,
-    editTask: (taskId: number, taskTitle: string ) => void,
+    editTask: (taskId: number, taskTitle: string) => void,
     deleteTask: (taskId: number) => void
 }
 
@@ -12,13 +13,32 @@ export default function TaskComponent({ id, title, editTask, deleteTask }: TaskP
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [taskTitle, setTaskTitle] = useState(title);
 
+    const handleEditask = () => {
+        if (taskTitle.length > 0){
+            editTask(id, taskTitle);
+        }else{
+            setTaskTitle(title);
+        }
+        setIsEditingTitle(false);
+    }
+
+    const ref = useRef(null);
+    useOnClickOutside(ref, () => { handleEditask() });
+
     return (
         <div className="flex justify-between border-2 border-gray-500 p-5">
             <div>
                 {
-                    !isEditingTitle ? <p onClick={() => setIsEditingTitle(true)}>{title}</p>
-                    :
+                    !isEditingTitle ?
+                        <p
+                            className="text-3xl font-bold mb-3 focus:outline-none"
+                            onClick={() => setIsEditingTitle(true)}
+                        >
+                            {title}
+                        </p>
+                        :
                         <input
+                            ref={ref}
                             className="text-3xl font-bold mb-3 focus:outline-none"
                             maxLength={30}
                             value={taskTitle}
@@ -34,9 +54,8 @@ export default function TaskComponent({ id, title, editTask, deleteTask }: TaskP
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         onClick={
-                            () => { 
-                                if (taskTitle.length > 0) setIsEditingTitle(false);
-                                editTask(id,taskTitle); 
+                            () => {
+                                handleEditask()
                             }
                         }
                     >

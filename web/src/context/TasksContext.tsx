@@ -39,7 +39,7 @@ export const TasksProvider = ({ children }: {children: ReactNode}) => {
         setTasks([...updatedTasks]);
     }
 
-    let state: State = {
+    const state: State = {
         tasks
     }
 
@@ -48,10 +48,6 @@ export const TasksProvider = ({ children }: {children: ReactNode}) => {
         editTask,
         deleteTask
     }
-
-    useEffect(()=>{
-        console.log(tasks);
-    },[tasks])
 
     return (
         <TasksContext.Provider value={[state, actions]}>

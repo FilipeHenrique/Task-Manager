@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { SketchPicker,TwitterPicker } from 'react-color';
+import { SketchPicker, TwitterPicker } from 'react-color';
 import useOnClickOutside from "../hooks/useOnClickOutside";
-import { PenTool, Type } from 'react-feather';
+import { PenTool, Type, X } from 'react-feather';
 
 
 interface TaskProps {
@@ -17,7 +17,7 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
 
     const [isPickingColor, setIsPickingColor] = useState(false);
     const [isPickingTextColor, setIsPickingTextColor] = useState(false);
-    
+
     const [color, setColor] = useState('#697689');
     const [textColor, setTextColor] = useState('#D9E3F0');
 
@@ -27,10 +27,10 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
     const textREf = useRef(null)
     useOnClickOutside(textREf, () => { setIsPickingTextColor(false) });
 
-    const pickerColors = 
+    const pickerColors =
         [
-            '#D9E3F0', '#F47373', '#697689', '#37D67A','#2CCCE4',
-             '#555555', '#dce775', '#ff8a65', '#ba68c8'
+            '#D9E3F0', '#F47373', '#697689', '#37D67A', '#2CCCE4',
+            '#555555', '#dce775', '#ff8a65', '#ba68c8'
         ];
 
     return (
@@ -38,10 +38,10 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
             {
                 isPickingColor &&
                 <div className="absolute z-50 left-0 mt-10 " ref={taskRef}>
-                    <TwitterPicker 
-                        color={color} 
-                        colors={pickerColors} 
-                        onChange={(color) => setColor(color.hex)} 
+                    <TwitterPicker
+                        color={color}
+                        colors={pickerColors}
+                        onChange={(color) => setColor(color.hex)}
                         onChangeComplete={() => setIsPickingColor(false)}
                     />
                 </div>
@@ -49,10 +49,10 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
             {
                 isPickingTextColor &&
                 <div className="absolute z-50 left-[34px] mt-10" ref={textREf}>
-                    <TwitterPicker 
-                        color={textColor} 
-                        colors={pickerColors} 
-                        onChange={(color) => setTextColor(color.hex)} 
+                    <TwitterPicker
+                        color={textColor}
+                        colors={pickerColors}
+                        onChange={(color) => setTextColor(color.hex)}
                         onChangeComplete={() => setIsPickingTextColor(false)}
                     />
                 </div>
@@ -66,29 +66,31 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
                     value={tastkText}
                     maxLength={500}
                     spellCheck="false"
-                    onChange={(e) =>{setTastkText(e.target.value);editTask(id, e.target.value.trim())}}
+                    onChange={(e) => { setTastkText(e.target.value); editTask(id, e.target.value.trim()) }}
                     autoFocus={tastkText.length === 0 ? true : false}
-                    // onBlur={() => handleEditask()}
-                    // onKeyDown={(e) => { if (e.key === "Enter") handleEditask() }}
+                // onBlur={() => handleEditask()}
+                // onKeyDown={(e) => { if (e.key === "Enter") handleEditask() }}
                 >
                 </textarea>
                 <div className="absolute top-0 shadow-sm mix-blend-color-burn p-1 w-full flex items-center justify-between"
                     style={{ backgroundColor: 'lightgrey' }}
                 >
                     <div className="flex justify-around items-center">
-                        <PenTool 
-                            className="ml-2 h-4 hover:cursor-pointer z-20 invert-0" 
-                            role="button" 
-                            onClick={() => { if (isPickingColor == false) setIsPickingColor(true) }} 
+                        <PenTool
+                            className="ml-2 h-4 hover:cursor-pointer z-20"
+                            role="button"
+                            onClick={() => { if (isPickingColor == false) setIsPickingColor(true) }}
                         />
-                        <Type 
-                            className="ml-2 h-4 hover:cursor-pointer" 
-                            role="button" 
-                            onClick={() => { if (isPickingTextColor == false) setIsPickingTextColor(true) }} 
+                        <Type
+                            className="ml-2 h-4 hover:cursor-pointer"
+                            role="button"
+                            onClick={() => { if (isPickingTextColor == false) setIsPickingTextColor(true) }}
                         />
                     </div>
 
-                    <button className="px-3 float-right" onClick={() => deleteTask(id)}> x </button>
+                    <div className="flex justify-around items-center hover:cursor-pointer">
+                        <X onClick={() => deleteTask(id)}/>
+                    </div>
                 </div>
 
             </div>

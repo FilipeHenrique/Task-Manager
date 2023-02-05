@@ -11,12 +11,12 @@ export default function AddTask({ addTask }: AddTaskProps) {
 
     return (
         <button
-            className="bg-teal-500 hover:bg-teal-700
-                     text-white text-3xl font-bold py-2 px-4 
-                     rounded-full shadow-lg fixed bottom-9 right-16 z-10"
+            className="bg-[#DCE775] hover:bg-[#b6c248]
+                     text-[#555555] text-3xl font-bold py-2 px-4 
+                     rounded-full shadow-lg fixed bottom-9 right-16 z-10
+                     hover:scale-110 transition-transform ease-in"
             onClick={
                 () => {
-                    // pega id da API e coloca
                     addTask({ id: Math.random(), text: task });
                     setTask('');
                 }

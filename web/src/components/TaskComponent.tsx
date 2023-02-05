@@ -72,8 +72,8 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
                 // onKeyDown={(e) => { if (e.key === "Enter") handleEditask() }}
                 >
                 </textarea>
-                <div className="absolute top-0 shadow-sm mix-blend-color-burn p-1 w-full flex items-center justify-between"
-                    style={{ backgroundColor: 'lightgrey' }}
+                <div className="absolute top-0 p-1 w-full flex items-center justify-between shadow-sm brightness-75"
+                    style={{ backgroundColor: color }}
                 >
                     <div className="flex justify-around items-center">
                         <PenTool

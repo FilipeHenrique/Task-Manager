@@ -3,28 +3,26 @@ import { Actions, State, Task, TasksContextType } from './types'
 
 const TasksContext = createContext<TasksContextType | null>(null);
 
-const storageTasks = JSON.parse(localStorage.getItem('tasks')!) || [{id: 0,text: ''}];
-const data = storageTasks ;
+const data = JSON.parse(localStorage.getItem('tasks')!) || [{id: 0,text: ''}];
 
 export const TasksProvider = ({ children }: {children: ReactNode}) => {
 
     const [tasks, setTasks] = useState<Task[]>(data);
 
     const addTask = (newTask: Task) => {
-        const oldTasks = [...tasks];
-        setTasks([...oldTasks, newTask]);
+        setTasks([...tasks, newTask]);
     }
 
     const editTask = (taskId: number, tasktext: string ) => {
         const taskIndex = tasks.findIndex((task) => task.id === taskId);
         const updatedTasks = [...tasks];
         updatedTasks[taskIndex] = {id: taskId, text: tasktext};
-        setTasks([...updatedTasks]);
+        setTasks(updatedTasks);
     }
 
     const deleteTask = (taskId: number) => {
         const updatedTasks = tasks.filter((task)=> task.id !== taskId);
-        setTasks([...updatedTasks]);
+        setTasks(updatedTasks);
     }
 
     const state: State = {

@@ -5,9 +5,7 @@ interface AddTaskProps {
     addTask: (task: Task) => void
 }
 
-export default function AddTask({ addTask }: AddTaskProps) {
-
-    const [task, setTask] = useState('');
+export default function AddTaskButton({ addTask }: AddTaskProps) {
 
     return (
         <button
@@ -17,8 +15,7 @@ export default function AddTask({ addTask }: AddTaskProps) {
                      hover:scale-110 transition-transform ease-in"
             onClick={
                 () => {
-                    addTask({ id: Math.random(), text: task });
-                    setTask('');
+                    addTask({ id: Math.random(), text: '' });
                 }
             }
         >

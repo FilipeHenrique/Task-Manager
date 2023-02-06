@@ -1,4 +1,4 @@
-import AddTask from "../components/AddTask";
+import AddTaskButton from "../components/AddTaskButton";
 import useTasksContext from "../hooks/useTasksContext";
 
 export default function AddTaskContainer() {
@@ -6,6 +6,6 @@ export default function AddTaskContainer() {
     const [,{addTask}] = useTasksContext();
     
     return (
-            <AddTask addTask={addTask}/>
+            <AddTaskButton addTask={addTask}/>
     );
 }

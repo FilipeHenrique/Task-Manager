@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { SketchPicker, TwitterPicker } from 'react-color';
+import { useRef, useState } from "react";
+import { TwitterPicker } from 'react-color';
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { PenTool, Type, X } from 'react-feather';
 
@@ -18,14 +18,16 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
     const [isPickingColor, setIsPickingColor] = useState(false);
     const [isPickingTextColor, setIsPickingTextColor] = useState(false);
 
-    const [color, setColor] = useState('#697689');
+    const [taskColor, setTaskColor] = useState('#697689');
     const [textColor, setTextColor] = useState('#D9E3F0');
 
-    const taskRef = useRef(null)
-    useOnClickOutside(taskRef, () => { setIsPickingColor(false) });
+    const taskColorPickerRef = useRef(null)
+    useOnClickOutside(taskColorPickerRef, () => { setIsPickingColor(false) });
 
-    const textREf = useRef(null)
-    useOnClickOutside(textREf, () => { setIsPickingTextColor(false) });
+    const textColorPickerRef = useRef(null)
+    useOnClickOutside(textColorPickerRef, () => { setIsPickingTextColor(false) });
+
+    const containerRef = useRef(null);
 
     const pickerColors =
         [
@@ -37,18 +39,18 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
         <div className="relative">
             {
                 isPickingColor &&
-                <div className="absolute z-50 left-0 mt-10 " ref={taskRef}>
+                <div className="absolute z-50 left-0 mt-10 " ref={taskColorPickerRef}>
                     <TwitterPicker
-                        color={color}
                         colors={pickerColors}
-                        onChange={(color) => setColor(color.hex)}
+                        color={taskColor}
+                        onChange={(taskColor) => setTaskColor(taskColor.hex)}
                         onChangeComplete={() => setIsPickingColor(false)}
                     />
                 </div>
             }
             {
                 isPickingTextColor &&
-                <div className="absolute z-50 left-[34px] mt-10" ref={textREf}>
+                <div className="absolute z-50 left-[34px] mt-10" ref={textColorPickerRef}>
                     <TwitterPicker
                         color={textColor}
                         colors={pickerColors}
@@ -57,23 +59,24 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
                     />
                 </div>
             }
-            <div className="relative shrink-0 shadow-lg overflow-hidden resize h-60 max-w-2xl max-h-[500px] min-w-[150px] min-h-[100px]" >
+            <div className="relative shrink-0 shadow-2xl overflow-hidden resize h-60 max-w-2xl max-h-[500px] min-w-[150px] min-h-[100px]"
+                ref={containerRef}
+                // onMouseUp={(e)=>console.log('rezie',containerRef.current.clientWidth)}
+            >
 
                 <textarea
                     className="
                     px-6 py-11 text-xl mb-3 overflow-auto focus:outline-none h-full w-full resize-none"
-                    style={{ backgroundColor: color, color: textColor }}
+                    style={{ backgroundColor: taskColor, color: textColor }}
                     value={tastkText}
                     maxLength={500}
                     spellCheck="false"
                     onChange={(e) => { setTastkText(e.target.value); editTask(id, e.target.value.trim()) }}
                     autoFocus={tastkText.length === 0 ? true : false}
-                // onBlur={() => handleEditask()}
-                // onKeyDown={(e) => { if (e.key === "Enter") handleEditask() }}
                 >
                 </textarea>
                 <div className="absolute top-0 p-1 w-full flex items-center justify-between shadow-sm brightness-75"
-                    style={{ backgroundColor: color }}
+                    style={{ backgroundColor: taskColor }}
                 >
                     <div className="flex justify-around items-center">
                         <PenTool

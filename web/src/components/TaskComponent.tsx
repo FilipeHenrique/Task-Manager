@@ -2,15 +2,7 @@ import { MutableRefObject, useRef, useState, useEffect } from "react";
 import { TwitterPicker } from 'react-color';
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { PenTool, Type, X } from 'react-feather';
-
-interface Task  {
-    id: number,
-    text: string,
-    width: number,
-    height: number,
-    taskColor: string,
-    textColor: string,
-}
+import { Task } from "../types";
 
 interface TaskProps {
     task: Task,
@@ -39,7 +31,6 @@ export default function TaskComponent({ task, editTask, deleteTask }: TaskProps)
     const containerRef = useRef() as MutableRefObject<HTMLDivElement>;
 
     const handleResize = (width: number, height: number) => {
-        console.log(`${width} , ${height}`);
         setTaskDimensions({width: width, height: height});
     }
 

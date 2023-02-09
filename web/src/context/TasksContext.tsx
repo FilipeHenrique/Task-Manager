@@ -1,13 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react"
-
-interface Task  {
-    id: number,
-    text: string,
-    width: number,
-    height: number,
-    taskColor: string,
-    textColor: string,
-}
+import { Task } from "../types"
+import {defaultTaskColor,defaultTaskHeight,defaultTaskWidth,defaultTextColor, data} from './TaskContextUtils'
 
 type State = {
     tasks: Task[]
@@ -21,24 +14,7 @@ type Actions = {
 
 type TasksContextType = [State,Actions]
 
-
 const TasksContext = createContext<TasksContextType | null>(null);
-
-const defaultTextColor = '#D9E3F0';
-const defaultTaskColor = '#697689';
-const defaultTaskHeight = 100;
-const defaultTaskWidth = 200;
-
-const data = JSON.parse(localStorage.getItem('tasks')!) || [
-    {
-        id: 0, 
-        text: '',
-        width: defaultTaskWidth,
-        height: defaultTaskHeight,
-        taskColor: defaultTaskColor,
-        textColor: defaultTextColor
-    }
-];
 
 export const TasksProvider = ({ children }: {children: ReactNode}) => {
 

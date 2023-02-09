@@ -1,25 +1,34 @@
-import { useRef, useState } from "react";
+import { MutableRefObject, useRef, useState, useEffect } from "react";
 import { TwitterPicker } from 'react-color';
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { PenTool, Type, X } from 'react-feather';
 
-
-interface TaskProps {
+interface Task  {
     id: number,
     text: string,
-    editTask: (taskId: number, tastkText: string) => void,
+    width: number,
+    height: number,
+    taskColor: string,
+    textColor: string,
+}
+
+interface TaskProps {
+    task: Task,
+    editTask: (newTask: Task) => void,
     deleteTask: (taskId: number) => void
 }
 
-export default function TaskComponent({ id, text, editTask, deleteTask }: TaskProps) {
+export default function TaskComponent({ task, editTask, deleteTask }: TaskProps) {
 
-    const [tastkText, setTastkText] = useState(text);
+    const [tastkText, setTastkText] = useState(task.text);
 
     const [isPickingColor, setIsPickingColor] = useState(false);
     const [isPickingTextColor, setIsPickingTextColor] = useState(false);
 
-    const [taskColor, setTaskColor] = useState('#697689');
-    const [textColor, setTextColor] = useState('#D9E3F0');
+    const [taskColor, setTaskColor] = useState(task.taskColor);
+    const [textColor, setTextColor] = useState(task.textColor);
+
+    const [taskDimensions, setTaskDimensions] = useState({width: task.width, height: task.height});
 
     const taskColorPickerRef = useRef(null)
     useOnClickOutside(taskColorPickerRef, () => { setIsPickingColor(false) });
@@ -27,13 +36,31 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
     const textColorPickerRef = useRef(null)
     useOnClickOutside(textColorPickerRef, () => { setIsPickingTextColor(false) });
 
-    const containerRef = useRef(null);
+    const containerRef = useRef() as MutableRefObject<HTMLDivElement>;
+
+    const handleResize = (width: number, height: number) => {
+        console.log(`${width} , ${height}`);
+        setTaskDimensions({width: width, height: height});
+    }
 
     const pickerColors =
         [
             '#D9E3F0', '#F47373', '#697689', '#37D67A', '#2CCCE4',
             '#555555', '#dce775', '#ff8a65', '#ba68c8'
         ];
+    
+
+    useEffect(() => {
+        const newTask = {
+            id: task.id,
+            text: tastkText.trim(),
+            width: taskDimensions.width,
+            height: taskDimensions.height,
+            taskColor: taskColor,
+            textColor: textColor
+        }
+        editTask(newTask);
+    },[tastkText,taskColor,textColor,taskDimensions])
 
     return (
         <div className="relative">
@@ -59,9 +86,10 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
                     />
                 </div>
             }
-            <div className="relative shrink-0 shadow-2xl overflow-hidden resize h-60 max-w-2xl max-h-[500px] min-w-[150px] min-h-[100px]"
+            <div className="relative shrink-0 shadow-2xl overflow-hidden resize max-w-2xl max-h-[500px] min-w-[150px] min-h-[100px]"
+                style={{height: taskDimensions.height, width: taskDimensions.width}}
                 ref={containerRef}
-                // onMouseUp={(e)=>console.log('rezie',containerRef.current.clientWidth)}
+                onMouseUp={(e)=>handleResize(containerRef.current.clientWidth,containerRef.current.clientHeight)}
             >
 
                 <textarea
@@ -71,10 +99,11 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
                     value={tastkText}
                     maxLength={500}
                     spellCheck="false"
-                    onChange={(e) => { setTastkText(e.target.value); editTask(id, e.target.value.trim()) }}
+                    onChange={(e) => { setTastkText(e.target.value) }}
                     autoFocus={tastkText.length === 0 ? true : false}
                 >
                 </textarea>
+
                 <div className="absolute top-0 p-1 w-full flex items-center justify-between shadow-sm brightness-75"
                     style={{ backgroundColor: taskColor }}
                 >
@@ -92,7 +121,7 @@ export default function TaskComponent({ id, text, editTask, deleteTask }: TaskPr
                     </div>
 
                     <div className="flex justify-around items-center hover:cursor-pointer">
-                        <X onClick={() => deleteTask(id)}/>
+                        <X onClick={() => deleteTask(task.id)}/>
                     </div>
                 </div>
 

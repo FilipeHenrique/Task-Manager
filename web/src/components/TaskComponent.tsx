@@ -1,4 +1,4 @@
-import { MutableRefObject, useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { TwitterPicker } from 'react-color';
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { PenTool, Type, X } from 'react-feather';
@@ -28,7 +28,7 @@ export default function TaskComponent({ task, editTask, deleteTask }: TaskProps)
     const textColorPickerRef = useRef(null)
     useOnClickOutside(textColorPickerRef, () => { setIsPickingTextColor(false) });
 
-    const containerRef = useRef() as MutableRefObject<HTMLDivElement>;
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const handleResize = (width: number, height: number) => {
         setTaskDimensions({width: width, height: height});
@@ -80,7 +80,7 @@ export default function TaskComponent({ task, editTask, deleteTask }: TaskProps)
             <div className="relative shrink-0 shadow-2xl overflow-hidden resize max-w-2xl max-h-[500px] min-w-[150px] min-h-[100px]"
                 style={{height: taskDimensions.height, width: taskDimensions.width}}
                 ref={containerRef}
-                onMouseUp={(e)=>handleResize(containerRef.current.clientWidth,containerRef.current.clientHeight)}
+                onMouseUp={(e)=>handleResize(Number(containerRef?.current?.clientWidth),Number(containerRef?.current?.clientHeight))}
             >
 
                 <textarea
